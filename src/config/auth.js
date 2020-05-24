@@ -1,5 +1,5 @@
 export default {
-  secret: '185880783d4703d61b9c12e37cbe6c59',
+  secret: 'de8fae219244ffc574278da0bdf96e59',
   expiresIn: '7d',
 };
-// token key: gobarberprojectletsdoit
+// token key: fastfeetproject
