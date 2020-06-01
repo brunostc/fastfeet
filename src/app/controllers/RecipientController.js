@@ -1,9 +1,9 @@
 import * as Yup from 'yup';
-import Recepient from '../models/Recepient';
+import Recepient from '../models/Recipient';
 
 // import Recepient from '../models/Recipient';
 
-class RecepientController {
+class RecipientController {
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
@@ -59,4 +59,4 @@ class RecepientController {
   }
 }
 
-export default new RecepientController();
+export default new RecipientController();

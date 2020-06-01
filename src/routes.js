@@ -2,7 +2,7 @@ import { Router } from 'express';
 import authMiddleware from './app/middlewares/auth';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
-import RecepientController from './app/controllers/RecepientController';
+import RecipientController from './app/controllers/RecipientController';
 
 // import authMiddleware from './app/middlewares/auth';
 
@@ -12,6 +12,6 @@ routes.post('/users', UserController.store);
 routes.post('/session', SessionController.store);
 
 routes.use(authMiddleware);
-routes.post('/recepients', RecepientController.store);
+routes.post('/recipients', RecipientController.store);
 
 export default routes;
