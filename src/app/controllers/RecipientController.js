@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import Recepient from '../models/Recipient';
+import Recipient from '../models/Recipient';
 
 // import Recepient from '../models/Recipient';
 
@@ -25,15 +25,15 @@ class RecipientController {
       });
     }
 
-    // const recepientExists = await Recepient.findOne({
-    //   where: { name: req.body.name },
-    // });
+    const recipientExists = await Recipient.findOne({
+      where: { name: req.body.name },
+    });
 
-    // if (recepientExists) {
-    //   return res
-    //     .status(400)
-    //     .json({ error: 'Recipient with this name already registered.' });
-    // }
+    if (recipientExists) {
+      return res
+        .status(400)
+        .json({ error: 'Recipient with this name already registered.' });
+    }
 
     const {
       id,
@@ -44,7 +44,58 @@ class RecipientController {
       state,
       city,
       zip_code,
-    } = await Recepient.create(req.body);
+    } = await Recipient.create(req.body);
+
+    return res.json({
+      id,
+      name,
+      street,
+      number,
+      complement,
+      state,
+      city,
+      zip_code,
+    });
+  }
+
+  async update(req, res) {
+    const { id } = req.params;
+    const schema = Yup.object().shape({
+      name: Yup.string(),
+      street: Yup.string(),
+      number: Yup.string(),
+      complement: Yup.string(),
+      state: Yup.string(),
+      city: Yup.string(),
+      zip_code: Yup.string()
+        .matches(/^[0-9]+$/, 'Must be only digits')
+        .min(8, 'Must be exactly 8 digits')
+        .max(8, 'Must be exactly 8 digits'),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({
+        error: 'Validation failed, please fill the fields correctly.',
+      });
+    }
+
+    const { street, number, complement } = req.body;
+
+    const recipient = await Recipient.findByPk(id);
+
+    if (req.body.name) {
+      const recipientExists = await Recipient.findOne({
+        where: { name: req.body.name },
+      });
+
+      if (recipientExists) {
+        return res
+          .status(400)
+          .json({ error: 'Recipient with this name already registered.' });
+      }
+    }
+
+    const { name, state, city, zip_code } = await recipient.update(req.body);
 
     return res.json({
       id,
